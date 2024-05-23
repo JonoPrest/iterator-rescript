@@ -1,0 +1,18 @@
+{
+  "name": "ink4-rescript",
+  "version": "0.1.0",
+  "sources": {
+    "dir": "src",
+    "subdirs": true
+  },
+  "jsx": {
+    "version": 4
+  },
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true,
+      "suffix": ".res.mjs"
+    }
+  ]
+}
