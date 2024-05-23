@@ -48,9 +48,10 @@ module Iterator = {
   type iter<'value> = {next: unit => res<'value>}
   type next<'state, 'value> = 'state => 'value
   type isDone<'state> = 'state => bool
-  type t<'a>
   type symbolIterator
   external symbolIterator: symbolIterator = "Symbol.iterator"
+
+  type t<'a>
 
   let make = (~state: 'state, ~next: next<'state, 'value>, ~isDone: isDone<'state>): t<'value> => {
     let innerDict = Js.Dict.empty()
@@ -63,6 +64,28 @@ module Iterator = {
     })
 
     innerDict->Obj.magic
+  }
+
+  exception Break
+  exception Continue
+
+  @@warning("-103")
+  let forEach = (_iterator: t<'a>, _fn: ('a, unit => unit, unit => unit) => unit) => {
+    %raw(`
+    for body of _iterator {
+      try {
+        _fn(body)
+      } catch (exn) {
+        if (exn.RE_EXN_ID === Break) {
+          break;
+        }
+        if (exn.RE_EXN_ID === Continue) {
+          continue;
+        }
+        throw exn;
+      }
+    } 
+    `)
   }
 }
 
@@ -80,6 +103,8 @@ let counter = Iterator.make(
     }
   },
 )
+
+// Js.log2("from rescripte", counter->Iterator.next)
 
 %%raw(`
 // console.log(counter[Symbol.iterator])

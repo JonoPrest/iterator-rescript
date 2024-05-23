@@ -12,9 +12,6 @@
   ],
   "author": "",
   "license": "MIT",
-  "devDependencies": {
-    "rescript-ink4": "../rescript-ink4"
-  },
   "dependencies": {
     "rescript": "11"
   }
