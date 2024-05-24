@@ -11,7 +11,7 @@ let counter = Iterator.make(~state=ref(0), ~getNext=count => {
 counter->Iterator.forOf(item => {
   let str = switch item {
     | 3 => "three"
-    | _ => raise(Iterator.Continue)
+    | _ => raise(Iterator.continue)
   }
   Js.log(str)
 })

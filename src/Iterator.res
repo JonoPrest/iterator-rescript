@@ -63,9 +63,6 @@ let make = (~state: 'state, ~getNext: getNext<'state, 'value>): t<'value> => {
   innerDict->Obj.magic
 }
 
-exception Break
-exception Continue
-let break = () => raise(Break)
-let continue = () => raise(Continue)
-
 @module("./InjectedForLoop.js") external forOf: (t<'a>, 'a => unit) => unit = "forOf"
+@module("./InjectedForLoop.js") @val external break: exn = "kBreak"
+@module("./InjectedForLoop.js") @val external continue: exn = "kContinue"

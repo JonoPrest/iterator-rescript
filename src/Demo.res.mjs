@@ -17,10 +17,7 @@ var counter = Iterator.make({
 Iterator.forOf(counter, (function (item) {
         var str;
         if (item !== 3) {
-          throw {
-                RE_EXN_ID: Iterator.Continue,
-                Error: new Error()
-              };
+          throw Iterator.$$continue;
         }
         str = "three";
         console.log(str);

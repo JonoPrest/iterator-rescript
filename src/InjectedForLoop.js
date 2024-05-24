@@ -1,12 +1,31 @@
+export const kBreak = Symbol();
+export const kContinue = Symbol();
+
 export const forOf = (iterator, fn) => {
   for (let body of iterator) {
     try {
       fn(body);
     } catch (exn) {
-      if (exn?.RE_EXN_ID?.includes("Iterator.Break")) {
+      if (exn === kBreak) {
         break;
       }
-      if (exn?.RE_EXN_ID?.includes("Iterator.Continue")) {
+      if (exn === kContinue) {
+        continue;
+      }
+      throw exn;
+    }
+  }
+};
+
+export const forAwaitOf = async (iterator, fn) => {
+  for (let body of iterator) {
+    try {
+      await fn(body);
+    } catch (exn) {
+      if (exn === kBreak) {
+        break;
+      }
+      if (exn === kContinue) {
         continue;
       }
       throw exn;
