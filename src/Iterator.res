@@ -40,26 +40,23 @@ console.log('iter', [...iter]);
 console.log('gen', [...gen]);
 */
 type res<'a> = {
-  value: 'a,
+  value: option<'a>,
   done: bool,
 }
 type iter<'value> = {next: unit => res<'value>}
-type getNext<'state, 'value> = 'state => 'value
-type isDone<'state> = 'state => bool
+type getNext<'state, 'value> = 'state => option<'value>
 type symbolIterator
 external symbolIterator: symbolIterator = "Symbol.iterator"
 
 type t<'a>
 
-let make = (~state: 'state, ~getNext: getNext<'state, 'value>, ~isDone: isDone<'state>): t<
-  'value,
-> => {
+let make = (~state: 'state, ~getNext: getNext<'state, 'value>): t<'value> => {
   let innerDict = Js.Dict.empty()
 
   innerDict->Js.Dict.set(Obj.magic(symbolIterator), () => {
     next: () => {
-      let done = isDone(state)
-      {value: getNext(state), done}
+      let value = getNext(state)
+      {value, done: value->Belt.Option.isNone}
     },
   })
 
@@ -71,4 +68,4 @@ exception Continue
 let break = () => raise(Break)
 let continue = () => raise(Continue)
 
-@module("./InjectedForOf.js") external forOf: (t<'a>, 'a => unit) => unit = "forOf"
+@module("./InjectedForLoop.js") external forOf: (t<'a>, 'a => unit) => unit = "forOf"

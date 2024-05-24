@@ -6,10 +6,12 @@ var counter = Iterator.make({
       contents: 0
     }, (function (count) {
         var value = count.contents;
-        count.contents = count.contents + 1 | 0;
-        return value;
-      }), (function (count) {
-        return count.contents > 10;
+        if (value > 10) {
+          return ;
+        } else {
+          count.contents = count.contents + 1 | 0;
+          return value;
+        }
       }));
 
 Iterator.forOf(counter, (function (item) {
