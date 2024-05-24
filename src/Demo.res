@@ -9,13 +9,11 @@ let counter = Iterator.make(~state=ref(0), ~getNext=count => {
 })
 
 counter->Iterator.forOf(item => {
-  if item == 2 {
-    Iterator.continue()
+  let str = switch item {
+    | 3 => "three"
+    | _ => raise(Iterator.Continue)
   }
-  if item == 7 {
-    Iterator.break()
-  }
-  Js.log(item)
+  Js.log(str)
 })
 
 // type rec fileTree = File({name: string}) | Dir({name: string, child: fileTree})

@@ -15,13 +15,15 @@ var counter = Iterator.make({
       }));
 
 Iterator.forOf(counter, (function (item) {
-        if (item === 2) {
-          Iterator.$$continue();
+        var str;
+        if (item !== 3) {
+          throw {
+                RE_EXN_ID: Iterator.Continue,
+                Error: new Error()
+              };
         }
-        if (item === 7) {
-          Iterator.$$break();
-        }
-        console.log(item);
+        str = "three";
+        console.log(str);
       }));
 
 export {

@@ -47,5 +47,7 @@ export {
   $$break ,
   $$continue ,
   forOf ,
+  Break ,
+  Continue ,
 }
 /* ./InjectedForLoop.js Not a pure module */
