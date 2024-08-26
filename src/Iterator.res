@@ -64,5 +64,7 @@ let make = (~state: 'state, ~getNext: getNext<'state, 'value>): t<'value> => {
 }
 
 @module("./InjectedForLoop.js") external forOf: (t<'a>, 'a => unit) => unit = "forOf"
+@module("./InjectedForLoop.js") external forOfAsync: (t<'a>, 'a => promise<unit>) => promise<unit> = "forOfAsync"
+
 @module("./InjectedForLoop.js") @val external break: exn = "kBreak"
 @module("./InjectedForLoop.js") @val external continue: exn = "kContinue"
