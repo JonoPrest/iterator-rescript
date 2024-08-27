@@ -17,7 +17,7 @@ export const forOf = (iterator, fn) => {
   }
 };
 
-export const forAwaitOf = async (iterator, fn) => {
+export const forOfAsync = async (iterator, fn) => {
   for (let body of iterator) {
     try {
       await fn(body);
@@ -32,3 +32,36 @@ export const forAwaitOf = async (iterator, fn) => {
     }
   }
 };
+
+export const forAwaitOf = async (iterator, fn) => {
+  for await (let body of iterator) {
+    try {
+      fn(body);
+    } catch (exn) {
+      if (exn === kBreak) {
+        break;
+      }
+      if (exn === kContinue) {
+        continue;
+      }
+      throw exn;
+    }
+  }
+};
+
+export const forAwaitOfAsync = async (iterator, fn) => {
+  for await (let body of iterator) {
+    try {
+      await fn(body);
+    } catch (exn) {
+      if (exn === kBreak) {
+        break;
+      }
+      if (exn === kContinue) {
+        continue;
+      }
+      throw exn;
+    }
+  }
+};
+
